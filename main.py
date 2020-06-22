@@ -35,15 +35,24 @@ def get_prediction(file_path, model_name):
 def inputForm():
     form = InputForm()
     if form.is_submitted():
-        result = request.form
+
         i = request.form.get("inputValue")
 
         with open('a.txt',"w") as f:
             f.write(str(i))
-        print(get_prediction(file,model))
-        return render_template('output.html', result=result)
+        mat = get_prediction(file,model)
 
-    return render_template('form.html', form=form)
+        if float(mat.payload[0].classification.score) > float(mat.payload[1].classification.score):
+            r = mat.payload[0].display_name
+
+        elif mat.payload[0].classification.score < mat.payload[1].classification.score:
+            r = mat.payload[1].display_name
+        else:
+            r = "Could not tell, proceed at your own risk!"
+        #result = json.loads(dic)
+        return render_template('form.html', form =form, result="The result we have found is " + r.lower())
+
+    return render_template('form.html', form=form, result = "No result yet! Enter a description from a GoFundMe Description to find out if it is fake!")
 
 
 if __name__ == '__main__':

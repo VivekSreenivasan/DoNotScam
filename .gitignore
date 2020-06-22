@@ -3,11 +3,15 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+
+misc/
 # C extensions
 *.so
+
 #files
 vivek2access.json
 a.txt
+
 # Distribution / packaging
 .Python
 build/
